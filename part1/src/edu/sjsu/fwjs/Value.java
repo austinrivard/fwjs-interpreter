@@ -1,5 +1,6 @@
 package edu.sjsu.fwjs;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -91,7 +92,9 @@ class ClosureVal implements Value {
      * be bound to its matching argument and added to the new local environment.
      */
     public Value apply(List<Value> argVals) {
-        // YOUR CODE HERE
+        Environment localEnv = new Environment(this.outerEnv);
+        argVals.forEach(System.out::print);
+
         return null;
     }
 }
