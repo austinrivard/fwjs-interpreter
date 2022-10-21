@@ -15,15 +15,18 @@ public interface Expression {
 
 // NOTE: Using package access so that all implementations of Expression
 // can be included in the same file.
+// Testing branch - Tristan
 
 /**
  * FWJS constants.
  */
 class ValueExpr implements Expression {
     private Value val;
+
     public ValueExpr(Value v) {
         this.val = v;
     }
+
     public Value evaluate(Environment env) {
         return this.val;
     }
@@ -34,9 +37,11 @@ class ValueExpr implements Expression {
  */
 class VarExpr implements Expression {
     private String varName;
+
     public VarExpr(String varName) {
         this.varName = varName;
     }
+
     public Value evaluate(Environment env) {
         return env.resolveVar(varName);
     }
@@ -47,15 +52,18 @@ class VarExpr implements Expression {
  */
 class PrintExpr implements Expression {
     private Expression exp;
+
     public PrintExpr(Expression exp) {
         this.exp = exp;
     }
+
     public Value evaluate(Environment env) {
         Value v = exp.evaluate(env);
         System.out.println(v.toString());
         return v;
     }
 }
+
 /**
  * Binary operators (+, -, *, etc).
  * Currently only numbers are supported.
@@ -64,6 +72,7 @@ class BinOpExpr implements Expression {
     private Op op;
     private Expression e1;
     private Expression e2;
+
     public BinOpExpr(Op op, Expression e1, Expression e2) {
         this.op = op;
         this.e1 = e1;
@@ -85,11 +94,13 @@ class IfExpr implements Expression {
     private Expression cond;
     private Expression thn;
     private Expression els;
+
     public IfExpr(Expression cond, Expression thn, Expression els) {
         this.cond = cond;
         this.thn = thn;
         this.els = els;
     }
+
     public Value evaluate(Environment env) {
         // YOUR CODE HERE
         return null;
@@ -102,10 +113,12 @@ class IfExpr implements Expression {
 class WhileExpr implements Expression {
     private Expression cond;
     private Expression body;
+
     public WhileExpr(Expression cond, Expression body) {
         this.cond = cond;
         this.body = body;
     }
+
     public Value evaluate(Environment env) {
         // YOUR CODE HERE
         return null;
@@ -118,10 +131,12 @@ class WhileExpr implements Expression {
 class SeqExpr implements Expression {
     private Expression e1;
     private Expression e2;
+
     public SeqExpr(Expression e1, Expression e2) {
         this.e1 = e1;
         this.e2 = e2;
     }
+
     public Value evaluate(Environment env) {
         // YOUR CODE HERE
         return null;
@@ -134,10 +149,12 @@ class SeqExpr implements Expression {
 class VarDeclExpr implements Expression {
     private String varName;
     private Expression exp;
+
     public VarDeclExpr(String varName, Expression exp) {
         this.varName = varName;
         this.exp = exp;
     }
+
     public Value evaluate(Environment env) {
         // YOUR CODE HERE
         return null;
@@ -152,10 +169,12 @@ class VarDeclExpr implements Expression {
 class AssignExpr implements Expression {
     private String varName;
     private Expression e;
+
     public AssignExpr(String varName, Expression e) {
         this.varName = varName;
         this.e = e;
     }
+
     public Value evaluate(Environment env) {
         // YOUR CODE HERE
         return null;
@@ -168,10 +187,12 @@ class AssignExpr implements Expression {
 class FunctionDeclExpr implements Expression {
     private List<String> params;
     private Expression body;
+
     public FunctionDeclExpr(List<String> params, Expression body) {
         this.params = params;
         this.body = body;
     }
+
     public Value evaluate(Environment env) {
         // YOUR CODE HERE
         return null;
@@ -184,13 +205,14 @@ class FunctionDeclExpr implements Expression {
 class FunctionAppExpr implements Expression {
     private Expression f;
     private List<Expression> args;
+
     public FunctionAppExpr(Expression f, List<Expression> args) {
         this.f = f;
         this.args = args;
     }
+
     public Value evaluate(Environment env) {
         // YOUR CODE HERE
         return null;
     }
 }
-
