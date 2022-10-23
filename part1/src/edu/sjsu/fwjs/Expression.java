@@ -84,7 +84,6 @@ class BinOpExpr implements Expression {
         int v1 = ((IntVal) e1.evaluate(env)).toInt();
         int v2 = ((IntVal) e2.evaluate(env)).toInt();
 
-        // Switch to determine right Op
         switch (op) {
             case ADD:
                 return new IntVal(v1 + v2);
