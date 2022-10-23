@@ -217,11 +217,9 @@ class AssignExpr implements Expression {
 
     public Value evaluate(Environment env) {
         env.updateVar(varName, e.evaluate(env));
-        if (e == null) {
-            return null;
-        }
-        Value val = e.evaluate(env);
-        env.updateVar(varName, val);
+
+        Value val = env.resolveVar(varName);
+
         return val;
     }
 }
