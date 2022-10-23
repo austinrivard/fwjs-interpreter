@@ -3,6 +3,8 @@ package edu.sjsu.fwjs;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
+
 /**
  * FWJS expressions.
  */
@@ -258,12 +260,13 @@ class FunctionAppExpr implements Expression {
     }
 
     public Value evaluate(Environment env) {
+        ClosureVal closure = (ClosureVal) f.evaluate(env);
         List<Value> arguments = new ArrayList<Value>();
-        ClosureVal closure = ((ClosureVal) this.f.evaluate(env));
 
-        for (Expression expression : this.args) {
-            arguments.add(expression.evaluate(env));
+        for (int i = 0; i < args.size(); i++) {
+            arguments.add(args.get(i).evaluate(env));
         }
+
         return closure.apply(arguments);
     }
 }
