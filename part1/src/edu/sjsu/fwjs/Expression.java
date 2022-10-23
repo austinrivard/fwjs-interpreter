@@ -3,8 +3,6 @@ package edu.sjsu.fwjs;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
-
 /**
  * FWJS expressions.
  */
