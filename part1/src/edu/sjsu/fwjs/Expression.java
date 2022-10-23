@@ -15,7 +15,6 @@ public interface Expression {
 
 // NOTE: Using package access so that all implementations of Expression
 // can be included in the same file.
-// Testing branch - Tristan
 
 /**
  * FWJS constants.
@@ -81,8 +80,35 @@ class BinOpExpr implements Expression {
 
     @SuppressWarnings("incomplete-switch")
     public Value evaluate(Environment env) {
-        // YOUR CODE HERE
-        return null;
+        // make sure v1 and v2 are IntVal numbers
+        int v1 = ((IntVal) e1.evaluate(env)).toInt();
+        int v2 = ((IntVal) e2.evaluate(env)).toInt();
+
+        // Switch to determine right Op
+        switch (op) {
+            case ADD:
+                return new IntVal(v1 + v2);
+            case SUBTRACT:
+                return new IntVal(v1 - v2);
+            case MULTIPLY:
+                return new IntVal(v1 * v2);
+            case DIVIDE:
+                return new IntVal(v1 / v2);
+            case GT:
+                return new BoolVal(v1 > v2);
+            case GE:
+                return new BoolVal(v1 >= v2);
+            case LT:
+                return new BoolVal(v1 < v2);
+            case LE:
+                return new BoolVal(v1 <= v2);
+            case MOD:
+                return new IntVal(v1 % v2);
+            case EQ:
+                return new BoolVal(v1 == v2);
+            default:
+                return new NullVal();
+        }
     }
 }
 
@@ -102,8 +128,17 @@ class IfExpr implements Expression {
     }
 
     public Value evaluate(Environment env) {
-        // YOUR CODE HERE
-        return null;
+        Value thenVal = thn.evaluate(env);
+        Value elseVal = els.evaluate(env);
+        Value nullVal = new NullVal();
+
+        if (((BoolVal) cond.evaluate(env)).toBoolean()) {
+            return thenVal;
+        } else if (els != null) {
+            return elseVal;
+        }
+
+        return nullVal;
     }
 }
 
@@ -120,8 +155,13 @@ class WhileExpr implements Expression {
     }
 
     public Value evaluate(Environment env) {
-        // YOUR CODE HERE
-        return null;
+        Value val = new NullVal();
+
+        while (((BoolVal) cond.evaluate(env)).toBoolean()) {
+            val = body.evaluate(env);
+        }
+
+        return val;
     }
 }
 
@@ -138,8 +178,8 @@ class SeqExpr implements Expression {
     }
 
     public Value evaluate(Environment env) {
-        // YOUR CODE HERE
-        return null;
+        e1.evaluate(env);
+        return e2.evaluate(env);
     }
 }
 
@@ -156,8 +196,10 @@ class VarDeclExpr implements Expression {
     }
 
     public Value evaluate(Environment env) {
-        // YOUR CODE HERE
-        return null;
+        Value val = new NullVal();
+        val = exp.evaluate(env);
+        env.createVar(varName, val);
+        return val;
     }
 }
 
@@ -176,8 +218,13 @@ class AssignExpr implements Expression {
     }
 
     public Value evaluate(Environment env) {
-        // YOUR CODE HERE
-        return null;
+        env.updateVar(varName, e.evaluate(env));
+        if (e == null) {
+            return null;
+        }
+        Value val = e.evaluate(env);
+        env.updateVar(varName, val);
+        return val;
     }
 }
 
@@ -194,8 +241,8 @@ class FunctionDeclExpr implements Expression {
     }
 
     public Value evaluate(Environment env) {
-        // YOUR CODE HERE
-        return null;
+        Value val = new ClosureVal(params, body, env);
+        return val;
     }
 }
 
@@ -212,7 +259,12 @@ class FunctionAppExpr implements Expression {
     }
 
     public Value evaluate(Environment env) {
-        // YOUR CODE HERE
-        return null;
+        List<Value> arguments = new ArrayList<Value>();
+        ClosureVal closure = ((ClosureVal) this.f.evaluate(env));
+
+        for (Expression expression : this.args) {
+            arguments.add(expression.evaluate(env));
+        }
+        return closure.apply(arguments);
     }
 }

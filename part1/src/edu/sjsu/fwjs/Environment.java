@@ -4,13 +4,14 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Environment {
-    private Map<String,Value> env = new HashMap<String,Value>();
+    private Map<String, Value> env = new HashMap<String, Value>();
     private Environment outerEnv;
 
     /**
      * Constructor for global environment
      */
-    public Environment() {}
+    public Environment() {
+    }
 
     /**
      * Constructor for local environment of a function
@@ -27,8 +28,18 @@ public class Environment {
      * null is returned (similar to how JS returns undefined.
      */
     public Value resolveVar(String varName) {
-        // YOUR CODE HERE
-        return null;
+        Environment e = new Environment(this);
+
+        // searching outer if var not found in current
+        while ((e != null) && (e.env.get(varName) == null)) {
+            e = e.outerEnv;
+        }
+        // outermost scope reached
+        if (e == null) {
+            return new NullVal();
+        } else {
+            return e.env.get(varName);
+        }
     }
 
     /**
@@ -37,7 +48,16 @@ public class Environment {
      * or any of the function's outer scopes, the var is stored in the global scope.
      */
     public void updateVar(String key, Value v) {
-        // YOUR CODE HERE
+        if (env.containsKey(key)) {
+            // variable found in current scope
+            env.replace(key, v);
+        } else if (this.outerEnv != null && this.outerEnv.resolveVar(key) != null) {
+            // found variable found in any outer scope
+            this.outerEnv.updateVar(key, v);
+        } else {
+            // declare as global variable
+            this.env.put(key, v);
+        }
     }
 
     /**
@@ -46,6 +66,9 @@ public class Environment {
      * a RuntimeException is thrown.
      */
     public void createVar(String key, Value v) {
-        // YOUR CODE HERE
+        if (this.env.containsKey(key)) {
+            throw new RuntimeException("Variable" + key + "has already been defined");
+        }
+        this.env.put(key, v);
     }
 }
