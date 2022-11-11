@@ -15,11 +15,14 @@ MUL       : '*' ;
 DIV       : '/' ;
 SEPARATOR : ';' ;
 
+ASSIGN      : '=' ;
+IDENTIFIER  : [a-zA-Z_][a-zA-Z_0-9]*;
 
 // Whitespace and comments
-NEWLINE   : '\r'? '\n' -> skip ;
-LINE_COMMENT  : '//' ~[\n\r]* -> skip ;
-WS            : [ \t]+ -> skip ; // ignore whitespace
+NEWLINE         : '\r'? '\n' -> skip ;
+LINE_COMMENT    : '//' ~[\n\r]* -> skip ;
+BLOCK_COMMENT   : '/*' .*? '*/' -> skip ;
+WS              : [ \t]+ -> skip ; // ignore whitespace
 
 
 // ***Parsing rules ***
