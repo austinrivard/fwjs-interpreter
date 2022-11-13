@@ -6,13 +6,27 @@ grammar FeatherweightJavaScript;
 // Reserved words
 IF        : 'if' ;
 ELSE      : 'else' ;
+WHILE     : 'while' ;
+FUNCTION  : 'function' ;
+VAR       : 'var' ;
+PRINT     : 'print' ;
 
 // Literals
 INT       : [1-9][0-9]* | '0' ;
+BOOL      : ('true' | 'false' );
+NULL      : 'null' ;
 
 // Symbols
 MUL       : '*' ;
 DIV       : '/' ;
+ADD       : '+' ;
+SUBTRACT  : '-' ;
+MOD       : '%' ;
+GT        : '>' ;
+LT        : '<' ;
+GE        : '>=' ;
+LE        : '<=' ;
+EQ        : '==' ;
 SEPARATOR : ';' ;
 
 ASSIGN      : '=' ;
