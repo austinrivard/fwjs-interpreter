@@ -53,7 +53,16 @@ stat: expr SEPARATOR                                    # bareExpr
     ;
 
 expr: expr op=( '*' | '/' | '%' ) expr                  # MulDivMod
+    | expr op=( '+' | '-' ) expr                        # AddSub
+    | expr op=( '<' | '<=' | '>' | '>=' | '==') expr    # Compare
+    | FUNCTION params block                             # funcDecl
+    | IDENTIFIER args                                   # funcCall
+    | VAR IDENTIFIER '=' expr                           # varDecl
+    | IDENTIFIER                                        # varRef
+    | IDENTIFIER '=' expr                               # varAssign
     | INT                                               # int
+    | BOOL                                              # bool
+    | NULL                                              # null
     | '(' expr ')'                                      # parens
     ;
 
@@ -61,3 +70,8 @@ block: '{' stat* '}'                                    # fullBlock
      | stat                                             # simpBlock
      ;
 
+params: '(' (IDENTIFIER (',' IDENTIFIER)*)? ')'         # parameters
+    ;
+
+args: '(' (expr (',' expr)*)? ')'                       # arguments
+    ;
